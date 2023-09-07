@@ -19,6 +19,7 @@ int main(__attribute__((unused)) int argc, char *argv[])
 	while (1)
 	{
 		buffer = NULL;
+		tokens = NULL;
 		/* check if the keyboard is connected to the tty (inter. mod)*/
 		if (isatty(STDIN_FILENO))
 			prompt_user();
@@ -31,12 +32,8 @@ int main(__attribute__((unused)) int argc, char *argv[])
 		/* free buffer after use */
 		if (tokens == NULL)
 			continue;
-		while (*tokens != NULL)
-		{
-			printf("token data: %s\n", *tokens);
-			tokens++;
-		}
 		free(buffer);
+		free_memory(tokens);
 	}
 	return (0);
 }

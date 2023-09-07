@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+void free_memory(char **tokens);
 void prompt_user(void);
 int get_N_token(char *buffer, char *sep);
 char **tokenize_buffer(char *buffer, char *sep);

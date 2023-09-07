@@ -45,7 +45,8 @@ char **tokenize_buffer(char *buffer, char *sep)
 	while (token != NULL)
 	{
 		/* make a copy of the token since it will be modified */
-		token_array[token_count] = strdup(token);
+		token_array[token_count] = malloc(strlen(token) + 1);
+		strcpy(token_array[token_count], token);
 		token_count++;
 		/*printf("token inside: %s\n", token);*/
 		token = strtok(NULL, sep);
@@ -79,3 +80,24 @@ int get_N_token(char *buffer, char *sep)
 	free(buff_cpy);
 	return (token_count);
 }
+
+/**
+ * free_memory - free memory
+ * @tokens: array of tokens
+ * Return: void
+ */
+
+void free_memory(char **tokens)
+{
+	int count = 0;
+	char **tokens_cpy;
+
+	tokens_cpy = tokens;
+	while (*tokens_cpy)
+	{
+		free(*tokens_cpy);
+		tokens_cpy++;
+	}
+	free(tokens);
+}
+
