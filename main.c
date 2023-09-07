@@ -29,10 +29,10 @@ int main(__attribute__((unused)) int argc, char *argv[])
 		else if (rbyte == -1)
 			exit(0);
 		tokens = tokenize_buffer(buffer, sep);
-		/* free buffer after use */
+		free(buffer);
+		/* check if tokens does not exist  */
 		if (tokens == NULL)
 			continue;
-		free(buffer);
 		free_memory(tokens);
 	}
 	return (0);

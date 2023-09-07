@@ -45,8 +45,7 @@ char **tokenize_buffer(char *buffer, char *sep)
 	while (token != NULL)
 	{
 		/* make a copy of the token since it will be modified */
-		token_array[token_count] = malloc(strlen(token) + 1);
-		strcpy(token_array[token_count], token);
+		token_array[token_count] = strdup(token);
 		token_count++;
 		/*printf("token inside: %s\n", token);*/
 		token = strtok(NULL, sep);
