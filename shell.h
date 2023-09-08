@@ -5,10 +5,16 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 void free_memory(char **tokens);
 void prompt_user(void);
 int get_N_token(char *buffer, char *sep);
 char **tokenize_buffer(char *buffer, char *sep);
 int handle_rbyte(char *buffer, int rbyte);
+void handle_execution(char **tokens, char *filename, char **env);
+void handle_error(char *filename, char *arg, int n);
+char *int_to_str(int count);
+
 #endif

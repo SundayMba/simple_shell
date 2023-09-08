@@ -39,7 +39,7 @@ char **tokenize_buffer(char *buffer, char *sep)
 
 	/* validate memory allocation */
 	if (token_array == NULL)
-		return NULL;
+		return (NULL);
 	token = strtok(buffer, sep);
 	token_count = 0;
 	while (token != NULL)
@@ -123,6 +123,6 @@ int handle_rbyte(char *buffer, int rbyte)
 	if (rbyte == -1)
 	{
 		free(buffer);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 }
