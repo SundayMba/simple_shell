@@ -24,10 +24,8 @@ int main(__attribute__((unused)) int argc, char *argv[])
 		if (isatty(STDIN_FILENO))
 			prompt_user();
 		rbyte = getline(&buffer, &buff_size, stdin);
-		if (rbyte == 1)
+		if (handle_rbyte(buffer, rbyte) == 1)
 			continue;
-		else if (rbyte == -1)
-			exit(0);
 		tokens = tokenize_buffer(buffer, sep);
 		free(buffer);
 		/* check if tokens does not exist  */
