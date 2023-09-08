@@ -63,11 +63,12 @@ char **tokenize_buffer(char *buffer, char *sep)
 
 int get_N_token(char *buffer, char *sep)
 {
-	char *buff_cpy, *token;
+	char *buff_cpy, *buff_tmp, *token;
 	int token_count = 0;
 
 	/* duplicate the buffer memory */
 	buff_cpy = strdup(buffer);
+	buff_tmp = buff_cpy;
 	if (buff_cpy == NULL)
 		return (-1);
 	token = strtok(buff_cpy, sep);
@@ -76,7 +77,7 @@ int get_N_token(char *buffer, char *sep)
 		token_count++;
 		token = strtok(NULL, sep);
 	}
-	free(buff_cpy);
+	free(buff_tmp);
 	return (token_count);
 }
 
@@ -91,6 +92,8 @@ void free_memory(char **tokens)
 	int count = 0;
 	char **tokens_cpy;
 
+	if (tokens == NULL)
+		return;
 	tokens_cpy = tokens;
 	while (*tokens_cpy)
 	{

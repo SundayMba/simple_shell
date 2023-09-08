@@ -28,9 +28,6 @@ int main(__attribute__((unused)) int argc, char *argv[])
 			continue;
 		tokens = tokenize_buffer(buffer, sep);
 		free(buffer);
-		/* check if tokens does not exist  */
-		if (tokens == NULL)
-			continue;
 		free_memory(tokens);
 	}
 	return (0);
