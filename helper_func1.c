@@ -89,7 +89,6 @@ int get_N_token(char *buffer, char *sep)
 
 void free_memory(char **tokens)
 {
-	int count = 0;
 	char **tokens_cpy;
 
 	if (tokens == NULL)
@@ -125,4 +124,5 @@ int handle_rbyte(char *buffer, int rbyte)
 		free(buffer);
 		exit(EXIT_SUCCESS);
 	}
+	return (rbyte);
 }

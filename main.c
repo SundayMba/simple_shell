@@ -10,8 +10,7 @@
 
 int main(__attribute__((unused)) int argc, char **argv, char **env)
 {
-	int tty;
-	char *buffer, *token, *sep;
+	char *buffer, *sep;
 	ssize_t rbyte;
 	size_t buff_size;
 	char **tokens;
