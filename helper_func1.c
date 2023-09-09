@@ -23,7 +23,7 @@ void prompt_user(void)
 char **tokenize_buffer(char *buffer, char *sep)
 {
 	char **token_array;
-	char *token;
+	char *token, *tmp_buffer;
 	int token_count;
 
 	token = NULL;
@@ -40,7 +40,8 @@ char **tokenize_buffer(char *buffer, char *sep)
 	/* validate memory allocation */
 	if (token_array == NULL)
 		return (NULL);
-	token = strtok(buffer, sep);
+	tmp_buffer = strdup(buffer);
+	token = strtok(tmp_buffer, sep);
 	token_count = 0;
 	while (token != NULL)
 	{
@@ -50,6 +51,7 @@ char **tokenize_buffer(char *buffer, char *sep)
 		/*printf("token inside: %s\n", token);*/
 		token = strtok(NULL, sep);
 	}
+	free(tmp_buffer);
 	token_array[token_count] = NULL;
 	return (token_array);
 }

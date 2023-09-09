@@ -31,8 +31,7 @@ int main(__attribute__((unused)) int argc, char **argv, char **env)
 		free(buffer);
 		if (tokens == NULL)
 			continue;
-		handle_execution(tokens, argv[0], env);
-		free_memory(tokens);
+		handle_path(tokens, argv[0], env);
 	}
 	return (0);
 }
