@@ -46,23 +46,22 @@ void handle_path(char **tokens, char *filename, char **env)
 
 char *build_full_path(char *cmd, char **env)
 {
-	char *var, *path, *sep;
-	int len, size, res;
-	char **paths, **tmp;
+	char *var, *path = NULL, *sep = ":", **paths, **tmp;
+	int len = 4, size, res = 1;
 	struct stat status;
 
-	len = 4;
-	sep = ":";
-	res = 1;
 	for (var = *env; var; var = *(++env))
 	{
-		path = strnstr(var, "PATH", len);
+		path = strstr(var, "PATH");
 		if (path != NULL)
 			if (*(path + len) == '=')
 				break;
 	}
-	/* move to starting location of the path */
+	if (path == NULL)
+		return (NULL);
 	path += 5;
+	if (path ==  "" || path == NULL || *path != '/')
+		return (NULL);
 	paths = tokenize_buffer(path, sep);
 	path = NULL;
 	tmp = paths;
