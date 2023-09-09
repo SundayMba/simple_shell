@@ -17,14 +17,17 @@ void handle_execution(char **tokens, char *filename, char **env)
 	pid = fork();
 	/* check for error during creation */
 	if (pid < 0)
-		handle_error(filename, tokens[0], n);
+		return;
 	/* check for successful child creation */
 	else if (pid == 0)
 	{
 		/* check if command was executed successfully */
 		if (execve(tokens[0], tokens, env) == -1)
 		{
-			handle_error(filename, tokens[0], n);
+			if (isatty(STDIN_FILENO))
+				perror(filename);
+			else
+				handle_error(filename, tokens[0], n);
 			exit(EXIT_FAILURE);
 		}
 	}
