@@ -28,6 +28,7 @@ void handle_execution(char **tokens, char *filename, char **env)
 				perror(filename);
 			else
 				handle_error(filename, tokens[0], n);
+			free_memory(tokens);
 			exit(EXIT_FAILURE);
 		}
 	}

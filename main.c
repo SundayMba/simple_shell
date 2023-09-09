@@ -28,8 +28,10 @@ int main(__attribute__((unused)) int argc, char **argv, char **env)
 		if (handle_rbyte(buffer, rbyte) == 1)
 			continue;
 		tokens = tokenize_buffer(buffer, sep);
-		handle_execution(tokens, argv[0], env);
 		free(buffer);
+		if (tokens == NULL)
+			continue;
+		handle_execution(tokens, argv[0], env);
 		free_memory(tokens);
 	}
 	return (0);
