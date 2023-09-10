@@ -61,8 +61,12 @@ char *build_full_path(char *cmd, char **env)
 	{
 		path = strstr(var, "PATH");
 		if (path != NULL)
+		{
 			if (*(path + len) == '=')
 				break;
+			else
+				path = NULL;
+		}
 	}
 	if (path == NULL)
 		return (NULL);
