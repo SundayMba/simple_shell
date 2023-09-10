@@ -1,14 +1,16 @@
 #include "shell.h"
 
+extern int ret_code;
+
 /**
  * handle_path - resolve path
  * @tokens: pointer to array of tokens
  * @filename: filename of execuation file
  * @env: environment
- * Return: void
+ * Return: error code
  */
 
-void handle_path(char **tokens, char *filename, char **env)
+int handle_path(char **tokens, char *filename, char **env)
 {
 	struct stat status;
 	char *path;
@@ -17,23 +19,28 @@ void handle_path(char **tokens, char *filename, char **env)
 	/* check if the command file path is valid */
 	if (stat(tokens[0], &status) == 0)
 	{
-		handle_execution(tokens, filename, env);
+		ret_code = handle_execution(tokens, filename, env);
 		free_memory(tokens);
+		return (0);
 	}
 	else
 	{
 		path = build_full_path(tokens[0], env);
 		if (path == NULL)
+		{
 			handle_error(filename, tokens[0], n);
+			ret_code = 127;
+		}
 		else
 		{
 			free(tokens[0]);
 			tokens[0] = path;
-			handle_execution(tokens, filename, env);
+			ret_code = handle_execution(tokens, filename, env);
 		}
 		if (!isatty(STDIN_FILENO))
 			n++;
 		free_memory(tokens);
+		return (ret_code);
 	}
 }
 

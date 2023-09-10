@@ -5,10 +5,10 @@
  * @tokens: list of commands and argument to execute
  * @filename: name of the execution file
  * @env: environment pointer
- * Return: void
+ * Return: error code
  */
 
-void handle_execution(char **tokens, char *filename, char **env)
+int handle_execution(char **tokens, char *filename, char **env)
 {
 	pid_t pid;
 	static int n = 1;
@@ -17,7 +17,7 @@ void handle_execution(char **tokens, char *filename, char **env)
 	pid = fork();
 	/* check for error during creation */
 	if (pid < 0)
-		return;
+		return (-1);
 	/* check for successful child creation */
 	else if (pid == 0)
 	{
@@ -38,6 +38,7 @@ void handle_execution(char **tokens, char *filename, char **env)
 		wait(NULL);
 		if (!isatty(STDIN_FILENO))
 			n++;
+		return (0);
 	}
 }
 

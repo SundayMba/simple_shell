@@ -1,5 +1,7 @@
 #include "shell.h"
 
+int ret_code;
+
 /**
  * main - entry point.
  * @argc: argument count from commandline
@@ -14,8 +16,7 @@ int main(__attribute__((unused)) int argc, char **argv, char **env)
 	ssize_t rbyte;
 	size_t buff_size;
 	char **tokens;
-
-	buff_size = 0;
+	ret_code = 0;
 	sep = " \n\t";
 	while (1)
 	{
@@ -31,7 +32,7 @@ int main(__attribute__((unused)) int argc, char **argv, char **env)
 		free(buffer);
 		if (tokens == NULL)
 			continue;
-		handle_path(tokens, argv[0], env);
+		ret_code = handle_path(tokens, argv[0], env);
 	}
-	return (0);
+	return (ret_code);
 }

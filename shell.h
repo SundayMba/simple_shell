@@ -14,10 +14,10 @@ void prompt_user(void);
 int get_N_token(char *buffer, char *sep);
 char **tokenize_buffer(char *buffer, char *sep);
 int handle_rbyte(char *buffer, int rbyte);
-void handle_execution(char **tokens, char *filename, char **env);
+int handle_execution(char **tokens, char *filename, char **env);
 void handle_error(char *filename, char *cmd, int n);
 char *int_to_str(int count);
 char *build_full_path(char *cmd, char **env);
-void handle_path(char **tokens, char *filename, char **env);
+int handle_path(char **tokens, char *filename, char **env);
 
 #endif

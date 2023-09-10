@@ -1,5 +1,7 @@
 #include "shell.h"
 
+extern int ret_code;
+
 /**
  * prompt_user - prompt user to input data from commandline
  * Return: void
@@ -124,7 +126,7 @@ int handle_rbyte(char *buffer, int rbyte)
 	if (rbyte == -1)
 	{
 		free(buffer);
-		exit(EXIT_SUCCESS);
+		exit(ret_code);
 	}
 	return (rbyte);
 }
