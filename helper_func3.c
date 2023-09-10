@@ -54,7 +54,7 @@ int handle_path(char **tokens, char *filename, char **env)
 char *build_full_path(char *cmd, char **env)
 {
 	char *var, *path = NULL, *sep = ":", **paths, **tmp;
-	int len = 4, size, res = 1;
+	int size, res = 1;
 	struct stat status;
 
 	for (var = *env; var; var = *(++env))
@@ -66,7 +66,7 @@ char *build_full_path(char *cmd, char **env)
 	if (path == NULL)
 		return (NULL);
 	path += 5;
-	if (path ==  "" || path == NULL || *path != '/')
+	if (path == NULL || *path != '/' || *path == '=')
 		return (NULL);
 	paths = tokenize_buffer(path, sep);
 	path = NULL;

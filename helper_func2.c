@@ -38,8 +38,8 @@ int handle_execution(char **tokens, char *filename, char **env)
 		wait(NULL);
 		if (!isatty(STDIN_FILENO))
 			n++;
-		return (0);
 	}
+	return (0);
 }
 
 /**
