@@ -59,14 +59,9 @@ char *build_full_path(char *cmd, char **env)
 
 	for (var = *env; var; var = *(++env))
 	{
-		path = strstr(var, "PATH");
+		path = strstr(var, "PATH=");
 		if (path != NULL)
-		{
-			if (*(path + len) == '=')
-				break;
-			else
-				path = NULL;
-		}
+			break;
 	}
 	if (path == NULL)
 		return (NULL);
