@@ -41,7 +41,7 @@ int handle_execution(char **tokens, char *filename, char **env, int *code)
 		if (!isatty(STDIN_FILENO))
 			n++;
 		/* error occurred during child process */
-		if (status == 256)
+		if (status > 0)
 			*code = FILE_NOT_EXIST;
 	}
 	return (*code);
