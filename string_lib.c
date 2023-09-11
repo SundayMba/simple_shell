@@ -22,3 +22,25 @@ char *_strnstr(char *haystack, char *needle, int n)
 	return (haystack);
 }
 
+/**
+ * _atoi - convert string to integer
+ * @str: string to convert
+ * Return: converted integer
+ */
+
+int _atoi(char *str)
+{
+	int unit, num;
+
+	if (str == NULL)
+		return (-1);
+	unit = 10;
+	num = 0;
+	while (*str)
+	{
+		num *= unit;
+		num += (*str - 48);
+		str++;
+	}
+	return (num);
+}

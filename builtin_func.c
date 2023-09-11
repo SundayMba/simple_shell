@@ -11,9 +11,18 @@
 
 int handle_exit(char **tk, char *file, char **env, int *n)
 {
-	(void *)file;
-	(void *)env;
-	(void *)n;
+	int status_code;
+	(void)file;
+	(void)env;
+	(void)n;
+
+	if (tk[1] == NULL)
+	{
+		free_memory(tk);
+		exit(*n);
+	}
+	status_code = _atoi(tk[1]);
 	free_memory(tk);
+	*n = status_code;
 	exit(*n);
 }
