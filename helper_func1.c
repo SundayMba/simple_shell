@@ -1,7 +1,5 @@
 #include "shell.h"
 
-extern int ret_code;
-
 /**
  * prompt_user - prompt user to input data from commandline
  * Return: void
@@ -110,10 +108,11 @@ void free_memory(char **tokens)
  * handle_rbyte - check the type of data return from getine
  * @buffer: user input from stdin
  * @rbyte: return byte from getline
+ * @ret_code: return code for the process
  * Return: integer
  */
 
-int handle_rbyte(char *buffer, int rbyte)
+int handle_rbyte(char *buffer, int rbyte, int *ret_code)
 {
 	/* when user press enter key */
 	if (rbyte == 1)
@@ -126,7 +125,7 @@ int handle_rbyte(char *buffer, int rbyte)
 	if (rbyte == -1)
 	{
 		free(buffer);
-		exit(ret_code);
+		exit(*ret_code);
 	}
 	return (rbyte);
 }
