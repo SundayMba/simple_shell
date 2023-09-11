@@ -9,6 +9,18 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+/**
+ * struct builtin - blueprint for builtin command function pointer
+ * @cmd: command
+ * @builtin_func: function pointer
+ */
+
+typedef struct builtin
+{
+	char *cmd;
+	int (*builtin_func)(char **, char *, char **, int *);
+} builtin_cmd;
+
 void free_memory(char **tokens);
 void prompt_user(void);
 int get_N_token(char *buffer, char *sep);
@@ -20,5 +32,7 @@ char *int_to_str(int count);
 char *build_full_path(char *cmd, char **env);
 int handle_path(char **tokens, char *filename, char **env, int *ret_code);
 char *_strnstr(char *haystack, char *needle, int n);
+int builtin_command(char **tk, char *file, char **env, int *n);
+int handle_exit(char **tk, char *file, char **env, int *);
 
 #endif
