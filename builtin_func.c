@@ -66,3 +66,34 @@ void handle_exit_error(char *filename, char **tk, int n, char *msg)
 	write(STDERR_FILENO, error, strlen(error));
 	free(count_str);
 }
+
+/**
+ * handle_env - handle environment
+ * @tk: tokens
+ * @file: filename
+ * @env: environment
+ * @n: status code
+ * Return: 0 - success
+ */
+
+int handle_env(char **tk, char *file, char **env, int *n)
+{
+	int len;
+	char *var;
+
+	for (var = *env; var; var = *(++env))
+	{
+		len = strlen(var);
+		if (write(STDOUT_FILENO, var, len) == -1)
+		{
+			*n = -1;
+			perror(file);
+			free_memory(tk);
+			return (*n);
+		}
+		write(STDOUT_FILENO, "\n", 1);
+	}
+	*n = 0;
+	free_memory(tk);
+	return (0);
+}

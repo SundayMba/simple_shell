@@ -18,7 +18,7 @@ int handle_path(char **tokens, char *filename, char **env, int *code)
 	/* check for builtin commands */
 	if (builtin_command(tokens, filename, env, code) == 0)
 	{
-		free_memory(tokens);
+		/* free_memory(tokens); */
 		return (*code);
 	}
 	/* check if the command file path is valid */
@@ -111,10 +111,11 @@ int builtin_command(char **tokens, char *filename, char **env, int *n)
 	int builtin_len, m, i;
 	builtin_cmd builtin[] = {
 		{"exit", handle_exit},
+		{"env", handle_env},
 		{NULL, NULL}
 	};
 
-	builtin_len = 2;
+	builtin_len = 3;
 	for (i = 0; i < builtin_len && builtin[i].cmd != NULL;  i++)
 	{
 		if (strcmp(builtin[i].cmd, tokens[0]) == 0)

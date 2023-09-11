@@ -38,6 +38,7 @@ int handle_path(char **tokens, char *filename, char **env, int *ret_code);
 char *_strnstr(char *haystack, char *needle, int n);
 int builtin_command(char **tk, char *file, char **env, int *n);
 int handle_exit(char **tk, char *file, char **env, int *);
+int handle_env(char **tk, char *file, char **env, int *);
 int _atoi(char *str);
 void handle_exit_error(char *filename, char **tokens, int n, char *msg);
 #endif
