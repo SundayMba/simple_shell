@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 
 #define FILE_NOT_EXIST 2
+#define ILLEGAL_NUMBER 2
 #define COMMAND_NOT_EXIST 127
 
 /**
@@ -38,4 +39,5 @@ char *_strnstr(char *haystack, char *needle, int n);
 int builtin_command(char **tk, char *file, char **env, int *n);
 int handle_exit(char **tk, char *file, char **env, int *);
 int _atoi(char *str);
+void handle_exit_error(char *filename, char **tokens, int n, char *msg);
 #endif

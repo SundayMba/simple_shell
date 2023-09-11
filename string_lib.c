@@ -30,12 +30,18 @@ char *_strnstr(char *haystack, char *needle, int n)
 
 int _atoi(char *str)
 {
-	int unit, num;
+	int unit = 10, num = 0;
+	char *tmp;
 
 	if (str == NULL)
 		return (-1);
-	unit = 10;
-	num = 0;
+	tmp = str;
+	while (*tmp)
+	{
+		if (strchr("0123456789", *tmp) == NULL)
+			return (-1);
+		tmp++;
+	}
 	while (*str)
 	{
 		num *= unit;
