@@ -80,8 +80,9 @@ int handle_env(char **tk, char *file, char **env, int *n)
 {
 	int len;
 	char *var;
+	char **env_cpy;
 
-	for (var = *env; var; var = *(++env))
+	for (var = *env_cpy; var; var = *(++env_cpy))
 	{
 		len = strlen(var);
 		if (write(STDOUT_FILENO, var, len) == -1)
