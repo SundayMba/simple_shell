@@ -80,7 +80,7 @@ int handle_env(char **tk, char *file, char **env, int *n)
 {
 	int len;
 	char *var;
-	char **env_cpy;
+	char **env_cpy = env;
 
 	for (var = *env_cpy; var; var = *(++env_cpy))
 	{
