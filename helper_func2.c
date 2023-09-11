@@ -5,19 +5,21 @@
  * @tokens: list of commands and argument to execute
  * @filename: name of the execution file
  * @env: environment pointer
+ * @code: status code
  * Return: error code
  */
 
-int handle_execution(char **tokens, char *filename, char **env)
+int handle_execution(char **tokens, char *filename, char **env, int *code)
 {
 	pid_t pid;
 	static int n = 1;
+	int status = 0;
 
 	/* create a child process */
 	pid = fork();
 	/* check for error during creation */
 	if (pid < 0)
-		return (-1);
+		*code = -1;
 	/* check for successful child creation */
 	else if (pid == 0)
 	{
@@ -35,11 +37,14 @@ int handle_execution(char **tokens, char *filename, char **env)
 	else
 	{
 		/* wait for the child to terminate */
-		wait(NULL);
+		wait(&status);
 		if (!isatty(STDIN_FILENO))
 			n++;
+		/* error occurred during child process */
+		if (status == 256)
+			*code = FILE_NOT_EXIST;
 	}
-	return (0);
+	return (*code);
 }
 
 /**

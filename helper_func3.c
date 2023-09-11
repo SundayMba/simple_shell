@@ -5,28 +5,28 @@
  * @tokens: pointer to array of tokens
  * @filename: filename of execuation file
  * @env: environment
- * @ret_code: return code
+ * @code: status code
  * Return: error code
  */
 
-int handle_path(char **tokens, char *filename, char **env, int *ret_code)
+int handle_path(char **tokens, char *filename, char **env, int *code)
 {
 	struct stat status;
 	char *path;
 	static int n = 1;
 
 	/* check for builtin commands */
-	if (builtin_command(tokens, filename, env, ret_code) == 0)
+	if (builtin_command(tokens, filename, env, code) == 0)
 	{
 		free_memory(tokens);
-		return (*ret_code);
+		return (*code);
 	}
 	/* check if the command file path is valid */
 	else if (stat(tokens[0], &status) == 0)
 	{
-		*ret_code = handle_execution(tokens, filename, env);
+		*code = handle_execution(tokens, filename, env, code);
 		free_memory(tokens);
-		return (0);
+		return (*code);
 	}
 	else
 	{
@@ -34,18 +34,18 @@ int handle_path(char **tokens, char *filename, char **env, int *ret_code)
 		if (path == NULL)
 		{
 			handle_error(filename, tokens[0], n);
-			*ret_code = 127;
+			*code = COMMAND_NOT_EXIST;
 		}
 		else
 		{
 			free(tokens[0]);
 			tokens[0] = path;
-			*ret_code = handle_execution(tokens, filename, env);
+			*code = handle_execution(tokens, filename, env, code);
 		}
 		if (!isatty(STDIN_FILENO))
 			n++;
 		free_memory(tokens);
-		return (*ret_code);
+		return (*code);
 	}
 }
 
@@ -109,8 +109,7 @@ char *build_full_path(char *cmd, char **env)
 int builtin_command(char **tokens, char *filename, char **env, int *n)
 {
 	int builtin_len, m, i;
-	builtin_cmd builtin[] =
-	{
+	builtin_cmd builtin[] = {
 		{"exit", handle_exit},
 		{NULL, NULL}
 	};
