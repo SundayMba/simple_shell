@@ -58,7 +58,7 @@ char *build_full_path(char *cmd, char **env)
 
 	for (var = *env; var; var = *(++env))
 	{
-		path = strstr(var, "PATH=");
+		path = _strnstr(var, "PATH=", 5);
 		if (path != NULL)
 			break;
 	}

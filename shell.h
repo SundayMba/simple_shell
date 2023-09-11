@@ -19,5 +19,6 @@ void handle_error(char *filename, char *cmd, int n);
 char *int_to_str(int count);
 char *build_full_path(char *cmd, char **env);
 int handle_path(char **tokens, char *filename, char **env, int *ret_code);
+char *_strnstr(char *haystack, char *needle, int n);
 
 #endif
