@@ -41,7 +41,7 @@ char **tokenize_buffer(char *buffer, char *sep)
 	if (token_array == NULL)
 		return (NULL);
 	tmp_buffer = strdup(buffer);
-	token = strtok(tmp_buffer, sep);
+	token = _strtok(tmp_buffer, sep);
 	token_count = 0;
 	while (token != NULL)
 	{
@@ -49,7 +49,7 @@ char **tokenize_buffer(char *buffer, char *sep)
 		token_array[token_count] = strdup(token);
 		token_count++;
 		/*printf("token inside: %s\n", token);*/
-		token = strtok(NULL, sep);
+		token = _strtok(NULL, sep);
 	}
 	free(tmp_buffer);
 	token_array[token_count] = NULL;
@@ -73,11 +73,11 @@ int get_N_token(char *buffer, char *sep)
 	buff_tmp = buff_cpy;
 	if (buff_cpy == NULL)
 		return (-1);
-	token = strtok(buff_cpy, sep);
+	token = _strtok(buff_cpy, sep);
 	while (token != NULL)
 	{
 		token_count++;
-		token = strtok(NULL, sep);
+		token = _strtok(NULL, sep);
 	}
 	free(buff_tmp);
 	return (token_count);

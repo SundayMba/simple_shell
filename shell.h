@@ -12,7 +12,7 @@
 #define FILE_NOT_EXIST 2
 #define ILLEGAL_NUMBER 2
 #define COMMAND_NOT_EXIST 127
-
+#define BUFFSIZE 1024
 /**
  * struct builtin - blueprint for builtin command function pointer
  * @cmd: command
@@ -41,4 +41,11 @@ int handle_exit(char **tk, char *file, char **env, int *);
 int handle_env(char **tk, char *file, char **env, int *);
 int _atoi(char *str);
 void handle_exit_error(char *filename, char **tokens, int n, char *msg);
+char *_strtok(char *str, char *sep);
+int _strlen(char *s);
+char *_strcpy(char *dest, char *src);
+char *_strcat(char *dest, char *src);
+int _strcmp(char *s1, char *s2);
+ssize_t _getline(char **line, size_t *size, int fd);
+
 #endif

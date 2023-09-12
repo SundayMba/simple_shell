@@ -24,7 +24,7 @@ int main(__attribute__((unused)) int argc, char **argv, char **env)
 		/* check if the keyboard is connected to the tty (inter. mod)*/
 		if (isatty(STDIN_FILENO))
 			prompt_user();
-		rbyte = getline(&buffer, &buff_size, stdin);
+		rbyte = _getline(&buffer, &buff_size, STDIN_FILENO);
 		if (handle_rbyte(buffer, rbyte, &ret_code) == 1)
 			continue;
 		tokens = tokenize_buffer(buffer, sep);

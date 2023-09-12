@@ -78,14 +78,12 @@ void handle_exit_error(char *filename, char **tk, int n, char *msg)
 
 int handle_env(char **tk, char *file, char **env, int *n)
 {
-	int len;
-	char *var;
-	char **env_cpy = env;
+	int len, i;
 
-	for (var = *env_cpy; var; var = *(++env_cpy))
+	for (i = 0; env[i]; i++)
 	{
-		len = strlen(var);
-		if (write(STDOUT_FILENO, var, len) == -1)
+		len = strlen(env[i]);
+		if (write(STDOUT_FILENO, env[i], len) == -1)
 		{
 			*n = -1;
 			perror(file);
