@@ -125,6 +125,7 @@ int handle_rbyte(char *buffer, int rbyte, int *ret_code)
 	if (rbyte == -1)
 	{
 		free(buffer);
+		free
 		exit(*ret_code);
 	}
 	return (rbyte);
