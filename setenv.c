@@ -17,7 +17,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 
 	namecpy = malloc(1024);
 	if (namecpy == NULL)
-		return (-1)
+		return (-1);
 	strcpy(namecpy, name);
 	envcpy = malloc(2048);
 	if (envcpy == NULL)
