@@ -44,7 +44,7 @@ int _setenv(char *name, char *value, int overwrite)
 }
 
 /**
- * check_env - check if an environment variable exist
+ * _getenv - check if an environment variable exist
  * @name: name of the environment variable
  * Return: 1 (exist) 0 (does not exist)
  */

@@ -59,5 +59,6 @@ int _putenv(char *new_env);
 char *_getenv(char *name);
 int _setenv(char *name, char *value, int overwrite);
 void print_env_error(char *file, char *msg);
+int buf_overflow(int *, int *, char *, int *, char *, int *, size_t *);
 
 #endif

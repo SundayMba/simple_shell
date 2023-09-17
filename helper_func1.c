@@ -109,6 +109,7 @@ void free_memory(char **tokens)
  * @buffer: user input from stdin
  * @rbyte: return byte from getline
  * @ret_code: return code for the process
+ * @env: environment variable
  * Return: integer
  */
 

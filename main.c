@@ -3,7 +3,7 @@
 /**
  * main - entry point.
  * @argc: argument count from commandline
- * @env: environment
+ * @envp: environment
  * @argv: pointer to an array of argument from commandline.
  * Return: succes code on success or error code on error
  */
@@ -13,7 +13,7 @@ int main(__attribute__((unused)) int argc, char **argv, char **envp)
 	char *buffer, *sep;
 	ssize_t rbyte;
 	size_t buff_size;
-	char **tokens, **env;
+	char **tokens;
 	int ret_code = 0;
 
 	sep = " \n\t";
@@ -23,7 +23,6 @@ int main(__attribute__((unused)) int argc, char **argv, char **envp)
 	{
 		buffer = NULL;
 		tokens = NULL;
-		//env = environ;
 		/* check if the keyboard is connected to the tty (inter. mod)*/
 		if (isatty(STDIN_FILENO))
 			prompt_user();
