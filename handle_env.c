@@ -5,17 +5,17 @@
  * @name: name of environment variable
  * @value: value of environment variable
  * @overwrite: (0) - don't overwrite, (1) - overwrite.
- * @env: address of the env variable
  * Return: (0) - success : (-1) - on error
  */
 
-int _setenv(const char *name, const char *value, int overwrite)
+int _setenv(char *name, char *value, int overwrite)
 {
 	char *new_env;
+	int size;
 
 	/* len = len(name) +len(value) + len('=') + len('\0') */
-	len = strlen(name) + strlen(value) + 2;
-	new_env = malloc(sizeof(char) * len);
+	size = strlen(name) + strlen(value) + 2;
+	new_env = malloc(sizeof(char) * size);
 	if (new_env == NULL)
 		return (-1);
 	/* construct the new environment */
@@ -23,16 +23,21 @@ int _setenv(const char *name, const char *value, int overwrite)
 	strcat(new_env, "=");
 	strcat(new_env, value);
 	strcat(new_env, "\0");
-	if (check_env(name) == 0)
-		_putenv(new_env);
+	if (_getenv(name) == NULL)
+	{
+		if (_putenv(new_env) == -1)
+			return (-1);
+	}
 	else
 	{
 		if (overwrite == 0)
 			free(new_env);
 		else
 		{
-			_unsetenv(name);
-			_putenv(new_env);
+			if (_unsetenv(name) == -1)
+				return (-1);
+			if (_putenv(new_env) == -1)
+				return (-1);
 		}
 	}
 	return (0);
@@ -44,21 +49,20 @@ int _setenv(const char *name, const char *value, int overwrite)
  * Return: 1 (exist) 0 (does not exist)
  */
 
-int check_env(char *name)
+char *_getenv(char *name)
 {
 	int i;
-	char *var;
+	char *env;
 
 	i = 0;
-	var = environ[i];
-	while (var != NULL)
+	while (environ[i])
 	{
-		if (_strnstr(var, name, _strlen(name)))
-			return (1);
+		env = _strnstr(environ[i], name, _strlen(name));
+		if (env)
+			return (env);
 		i++;
-		var = environ[i];
 	}
-	return (0);
+	return (NULL);
 }
 
 /**
@@ -69,18 +73,37 @@ int check_env(char *name)
 
 int _putenv(char *new_env)
 {
-	int i;
-	char ***environ_p = &environ;
+	int i, j;
+	char **env_array, *tmp, **tmp1;
 
 	i = 0;
 	while (environ[i])
 		i++;
-	*environ_p = realloc(*environ_p, (sizeof(char *) * (i + 2)));
-	if (*environ_p == NULL)
+	env_array = malloc(sizeof(char *) * (i + 2));
+	if (env_array == NULL)
+	{
+		free(new_env);
 		return (-1);
-	/* *environ_p is same as environ (it can be used interchangeably */
-	(*environ_p)[i++] = new_env;
-	(*environ_p)[i] = NULL;
+	}
+	for (i = 0; environ[i]; i++)
+	{
+		tmp = strdup(environ[i]);
+		if (tmp == NULL)
+		{
+			for (j = i - 1; j >= 0; j--)
+				free(env_array[j]);
+			free_memory(env_array);
+			free(new_env);
+			return (-1);
+		}
+		env_array[i] = tmp;
+	}
+	env_array[i] = new_env;
+	i++;
+	env_array[i] = NULL;
+	tmp1 = environ;
+	environ = env_array;
+	free_memory(tmp1);
 	return (0);
 }
 
@@ -106,16 +129,14 @@ char **dynamic_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = malloc(sizeof(char) * (strlen(env[i]) + 1));
+		tmp = strdup(env[i]);
 		if (tmp == NULL)
 		{
 			for (j = i - 1; j >= 0; j--)
 				free(env_array[j]);
-			free(env_array);
+			free_memory(env_array);
 			return (NULL);
 		}
-		strcpy(tmp, env[i]);
-		strcat(tmp, "\0");
 		env_array[i] = tmp;
 		i++;
 	}
@@ -131,41 +152,23 @@ char **dynamic_env(char **env)
 
 int _unsetenv(char *name)
 {
-	int i, len, index, env_name_found = 0;
-	char *tmp, ***environ_p = &environ;
+	int i, j;
 
 	i = 0;
 	while (environ[i])
 		i++;
-	env_array = malloc(sizeof(char *) * i);
-	if (env_array == NULL)
+	if (_getenv(name) == NULL)
 		return (-1);
-	len = i;
-	for (i = 0; i < len; i++)
+	for (i = 0; environ[i]; i++)
 	{
-		if (env_name_found = 0)
-			if (_strnstr(environ[i], name, _strlen(name)))
-				env_name_found = 1;
-		index = env_name_found ? (i + 1) : i;
-		if (environ[index] != NULL)
-			tmp = malloc((_strlen(environ[index]) + 1));
-		if (tmp == NULL)
+		if (_strnstr(environ[i], name, strlen(name)))
 		{
-			for (j = i - 1; j >= 0; j--)
-				free(env_array[j]);
-			free(env_array);
-			return (-1);
-		}
-		if (environ[index] == NULL)
-			env_array[i] = NULL;
-		else
-		{
-			strcpy(tmp, environ[index]);
-			strcat(tmp, "\0");
-			env_array[i] = tmp;
+			free(environ[i]);
+			environ[i] = NULL;
+			for (j = i; environ[j + 1]; j++)
+				environ[j] = environ[j + 1];
+			environ[j] = NULL;
 		}
 	}
-	free_memory(environ);
-	*environ_p = env_array;
 	return (0);
 }

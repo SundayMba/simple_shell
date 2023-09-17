@@ -112,7 +112,7 @@ void free_memory(char **tokens)
  * Return: integer
  */
 
-int handle_rbyte(char *buffer, int rbyte, int *ret_code)
+int handle_rbyte(char *buffer, int rbyte, int *ret_code, char **env)
 {
 	/* when user press enter key */
 	if (rbyte == 1)
@@ -125,7 +125,7 @@ int handle_rbyte(char *buffer, int rbyte, int *ret_code)
 	if (rbyte == -1)
 	{
 		free(buffer);
-		free
+		free_memory(env);
 		exit(*ret_code);
 	}
 	return (rbyte);
