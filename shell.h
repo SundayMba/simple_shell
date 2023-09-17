@@ -13,6 +13,10 @@
 #define ILLEGAL_NUMBER 2
 #define COMMAND_NOT_EXIST 127
 #define BUFFSIZE 1024
+
+
+extern char **environ;
+
 /**
  * struct builtin - blueprint for builtin command function pointer
  * @cmd: command
@@ -29,7 +33,7 @@ void free_memory(char **tokens);
 void prompt_user(void);
 int get_N_token(char *buffer, char *sep);
 char **tokenize_buffer(char *buffer, char *sep);
-int handle_rbyte(char *buffer, int rbyte, int *ret_code);
+int handle_rbyte(char *buffer, int rbyte, int *ret_code, char **env);
 int handle_execution(char **tokens, char *filename, char **env, int *n);
 void handle_error(char *filename, char *cmd, int n);
 char *int_to_str(int count);
@@ -38,6 +42,8 @@ int handle_path(char **tokens, char *filename, char **env, int *ret_code);
 char *_strnstr(char *haystack, char *needle, int n);
 int builtin_command(char **tk, char *file, char **env, int *n);
 int handle_exit(char **tk, char *file, char **env, int *);
+int handle_setenv(char **tk, char *file, char **env, int *);
+int handle_unsetenv(char **tk, char *file, char **env, int *);
 int handle_env(char **tk, char *file, char **env, int *);
 int _atoi(char *str);
 void handle_exit_error(char *filename, char **tokens, int n, char *msg);
@@ -47,5 +53,12 @@ char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 ssize_t _getline(char **line, size_t *size, int fd);
+int _unsetenv(char *name);
+char **dynamic_env(char **env);
+int _putenv(char *new_env);
+char *_getenv(char *name);
+int _setenv(char *name, char *value, int overwrite);
+void print_env_error(char *file, char *msg);
+int buf_overflow(int *, int *, char *, int *, char *, int *, size_t *);
 
 #endif
