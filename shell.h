@@ -13,6 +13,7 @@
 #define ILLEGAL_NUMBER 2
 #define COMMAND_NOT_EXIST 127
 #define BUFFSIZE 1024
+#define NOT_BUILTIN -50
 
 
 extern char **environ;
@@ -60,5 +61,10 @@ char *_getenv(char *name);
 int _setenv(char *name, char *value, int overwrite);
 void print_env_error(char *file, char *msg);
 int buf_overflow(int *, int *, char *, int *, char *, int *, size_t *);
+int handle_cd(char **tk, char *file, char **env, int *n);
+int cd_home(char *file);
+char *getenv_value(char *env_name);
+int cd_path(char *file, char *path);
+int cd_previous_path(char *file);
 
 #endif
