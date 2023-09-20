@@ -25,6 +25,7 @@ void handle_cd_error(char *filename, char **tk, int n, char *msg)
 	strcat(error, tk[0]);
 	strcat(error, ": ");
 	strcat(error, msg);
+	strcat(error, " ");
 	strcat(error, tk[1]);
 	strcat(error, "\n");
 	write(STDERR_FILENO, error, strlen(error));
