@@ -26,7 +26,7 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 			handle_cd_error(file, tk, err, "can't cd to");
 		}
 	}
-	else if (strcmp(tk[1], "-") == 0)
+	else if (_strcmp(tk[1], "-") == 0)
 	{
 		*n = cd_previous_path(file);
 		if (*n == 0)
@@ -64,7 +64,7 @@ int cd_home(char *file)
 
 	size = 500;
 	tmp = getenv_value("HOME");
-	strcpy(home, tmp);
+	_strcpy(home, tmp);
 	if (getcwd(pwd, size) == NULL)
 	{
 		return (-2);
@@ -97,7 +97,7 @@ char *getenv_value(char *env_name)
 	char *env;
 
 	env = _getenv(env_name);
-	env = strchr(env, '=');
+	env = _strchr(env, '=');
 	env++;
 	return (env);
 }
@@ -148,8 +148,8 @@ int cd_previous_path(char *file)
 	(void)file;
 	tmp1 = getenv_value("PWD");
 	tmp2 = getenv_value("OLDPWD");
-	strcpy(pwd, tmp1);
-	strcpy(oldpwd, tmp2);
+	_strcpy(pwd, tmp1);
+	_strcpy(oldpwd, tmp2);
 	if (chdir(oldpwd) == -1)
 	{
 		return (-2);
