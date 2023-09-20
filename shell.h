@@ -56,7 +56,7 @@ char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 ssize_t _getline(char **line, size_t *size, int fd);
-int _setenv(const char *name, const char *value, int overwrite);
+int _setenv(char *name, char *value, int overwrite);
 int _unsetenv(char *name);
 char **dynamic_env(char **env);
 int _putenv(char *new_env);
