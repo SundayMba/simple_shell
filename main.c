@@ -33,7 +33,7 @@ int main(__attribute__((unused)) int argc, char **argv, char **envp)
 		free(buffer);
 		if (tokens == NULL)
 			continue;
-		ret_code = handle_path(tokens, argv[0], environ, &ret_code);
+		ret_code = process_cmd(tokens, argv[0], environ, &ret_code);
 	}
 	free_memory(environ);
 	return (ret_code);

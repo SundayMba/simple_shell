@@ -40,6 +40,7 @@ void handle_error(char *filename, char *cmd, int n);
 char *int_to_str(int count);
 char *build_full_path(char *cmd, char **env);
 int handle_path(char **tokens, char *filename, char **env, int *ret_code);
+int process_cmd(char **tokens, char *filename, char **env, int *ret_code);
 char *_strnstr(char *haystack, char *needle, int n);
 int builtin_command(char **tk, char *file, char **env, int *n);
 int handle_exit(char **tk, char *file, char **env, int *);
@@ -64,6 +65,7 @@ int buf_overflow(int *, int *, char *, int *, char *, int *, size_t *);
 int handle_cd(char **tk, char *file, char **env, int *n);
 int cd_home(char *file);
 char *getenv_value(char *env_name);
+char *special_char(char **tokens);
 int cd_path(char *file, char *path);
 int cd_previous_path(char *file);
 

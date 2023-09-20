@@ -48,7 +48,7 @@ ssize_t _getline(char **line, size_t *size, int fd)
 	(*line)[lp++] = '\n';
 	(*line)[lp] = '\0';
 	*size = lp;
-	return (*size - 1);
+	return (*size);
 }
 
 /**
@@ -72,7 +72,7 @@ int buf_overflow(int *d, int *b, char *bf, int *f, char *l, int *lp, size_t *s)
 		{
 			l[*lp] = '\0';
 			*s = *lp;
-			return (*s - 1);
+			return (*s);
 		}
 		*d = 0;
 	}
