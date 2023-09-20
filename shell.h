@@ -47,5 +47,12 @@ char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 ssize_t _getline(char **line, size_t *size, int fd);
+int _setenv(const char *name, const char *value, int overwrite);
+int _unsetenv(const char *name);
+int _strncmp(const char *s1, const char *s2, size_t n);
+char *_strstr(const char *haystack, const char *needle);
+char *_strdup(const char *s);
+char *_strchr(const char *s, int c);
+void *_realloc(void *ptr, size_t size);
 
 #endif
