@@ -68,5 +68,6 @@ char *getenv_value(char *env_name);
 char *special_char(char **tokens);
 int cd_path(char *file, char *path);
 int cd_previous_path(char *file);
+int flush(char **tokens, int *status);
 
 #endif

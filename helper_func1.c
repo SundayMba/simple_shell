@@ -7,9 +7,10 @@
 
 void prompt_user(void)
 {
-	size_t size = 500;
-	char *message, pwd[size];
+	size_t size;
+	char pwd[500];
 
+	size = 500;
 	getcwd(pwd, size);
 	strcat(pwd, "$ ");
 	write(STDOUT_FILENO, pwd, strlen(pwd));

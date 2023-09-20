@@ -20,10 +20,8 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 		while (tk[count])
 		{
 			prev = count;
-			/* count number of tokens before special char */
 			while (tk[count] && !strstr(sp_chars, tk[count]))
-					count++;
-			/* construct a new token array */
+				count++;
 			new_tk = malloc(sizeof(char *) * ((count - prev) + 1));
 			if (new_tk == NULL)
 				return (-1);
@@ -37,25 +35,16 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 				if (strcmp(sp_char, "||") == 0)
 				{
 					if (*status == 0)
-					{
-						free_memory(tokens);
-						return (*status);
-					}
+						return (flush(tokens, status));
 				}
 				else if (strcmp(sp_char, "&&") == 0)
 				{
 					if (*status != 0)
-					{
-						free_memory(tokens);
-						return (*status);
-					}
+						return (flush(tokens, status));
 				}
 			}
 			else
-			{
-				free_memory(tokens);
-				return (*status);
-			}
+				return (flush(tokens, status));
 			count++;
 		}
 	}
@@ -82,4 +71,17 @@ char *special_char(char **tokens)
 			return (sp_char_ptr);
 	}
 	return (NULL);
+}
+
+/**
+ * flush - clean up the memory and return to the caller
+ * @tokens: array of tokens to free up
+ * @status: status code to return
+ * Return: status value
+ */
+
+int flush(char **tokens, int *status)
+{
+	free_memory(tokens);
+	return (*status);
 }

@@ -11,10 +11,11 @@
 
 int handle_cd(char **tk, char *file, char **env, int *n)
 {
-	(void)env;
-	size_t size = 500;
-	char pwd[size];
+	size_t size;
+	char pwd[500];
 
+	(void)env;
+	size = 500;
 	if (tk[1] == NULL)
 	{
 		*n = cd_home(file);
@@ -50,9 +51,10 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 
 int cd_home(char *file)
 {
-	size_t size = 500;
-	char pwd[size], *tmp, home[256];
+	size_t size;
+	char pwd[500], *tmp, home[500];
 
+	size = 500;
 	tmp = getenv_value("HOME");
 	strcpy(home, tmp);
 	if (getcwd(pwd, size) == NULL)
@@ -81,7 +83,7 @@ int cd_home(char *file)
 /**
  * getenv_value - get value of a given environment variable
  * @env_name: environment variable name
- * Return; pointer to the environment value
+ * Return: pointer to the environment value
  */
 
 char *getenv_value(char *env_name)
@@ -103,9 +105,10 @@ char *getenv_value(char *env_name)
 
 int cd_path(char *file, char *path)
 {
-	size_t size = 500;
-	char oldpwd[size], pwd[size];
+	size_t size;
+	char oldpwd[500], pwd[500];
 
+	size = 500;
 	if (getcwd(oldpwd, size) == NULL)
 	{
 		perror(file);
@@ -136,8 +139,7 @@ int cd_path(char *file, char *path)
 
 int cd_previous_path(char *file)
 {
-	size_t size = 500;
-	char pwd[size], oldpwd[size], *tmp1, *tmp2;
+	char pwd[500], oldpwd[500], *tmp1, *tmp2;
 
 	tmp1 = getenv_value("PWD");
 	tmp2 = getenv_value("OLDPWD");
