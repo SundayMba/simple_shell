@@ -12,8 +12,8 @@ void prompt_user(void)
 
 	size = 500;
 	getcwd(pwd, size);
-	strcat(pwd, "$ ");
-	write(STDOUT_FILENO, pwd, strlen(pwd));
+	_strcat(pwd, "$ ");
+	write(STDOUT_FILENO, pwd, _strlen(pwd));
 }
 
 /**
@@ -43,13 +43,13 @@ char **tokenize_buffer(char *buffer, char *sep)
 	/* validate memory allocation */
 	if (token_array == NULL)
 		return (NULL);
-	tmp_buffer = strdup(buffer);
+	tmp_buffer = _strdup(buffer);
 	token = _strtok(tmp_buffer, sep);
 	token_count = 0;
 	while (token != NULL)
 	{
 		/* make a copy of the token since it will be modified */
-		token_array[token_count] = strdup(token);
+		token_array[token_count] = _strdup(token);
 		token_count++;
 		/*printf("token inside: %s\n", token);*/
 		token = _strtok(NULL, sep);
@@ -72,7 +72,7 @@ int get_N_token(char *buffer, char *sep)
 	int token_count = 0;
 
 	/* duplicate the buffer memory */
-	buff_cpy = strdup(buffer);
+	buff_cpy = _strdup(buffer);
 	buff_tmp = buff_cpy;
 	if (buff_cpy == NULL)
 		return (-1);
