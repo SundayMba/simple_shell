@@ -19,6 +19,11 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 	if (tk[1] == NULL)
 	{
 		*n = cd_home(file);
+		if (*n == -2)
+		{
+			*n = -1;
+			handle_exit_error(file, tk, *n, "can't cd to");
+		}
 	}
 	else if (strcmp(tk[1], "-") == 0)
 	{
@@ -27,7 +32,7 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 		{
 			if (getcwd(pwd, size) == NULL)
 			{
-				perror(file);
+				handle_exit_error(file, tk, *n, "can't cd to");
 				*n = -1;
 				return (*n);
 			}
@@ -37,6 +42,8 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 	}
 	else
 		*n = cd_path(file, tk[1]);
+	if (*n == -2)
+		handle_exit_error(file, tk, *n, "can't cd to");
 	if (*n == -1)
 		print_env_error(file, "Invalid path");
 	free_memory(tk);
@@ -59,8 +66,7 @@ int cd_home(char *file)
 	strcpy(home, tmp);
 	if (getcwd(pwd, size) == NULL)
 	{
-		perror(file);
-		return (-1);
+		return (-2);
 	}
 	if (_setenv("PWD", home, 1) == -1)
 	{
@@ -74,8 +80,7 @@ int cd_home(char *file)
 	}
 	if (chdir(home) == -1)
 	{
-		perror(file);
-		return (-1);
+		return (-2);
 	}
 	return (0);
 }
@@ -108,22 +113,20 @@ int cd_path(char *file, char *path)
 	size_t size;
 	char oldpwd[500], pwd[500];
 
+	(void)file;
 	size = 500;
 	if (getcwd(oldpwd, size) == NULL)
 	{
-		perror(file);
 		return (-2);
 	}
 	if (chdir(path) == -1)
 	{
-		perror(file);
 		return (-2);
 	}
 	if (_setenv("OLDPWD", oldpwd, 1) == -1)
 		return (-1);
 	if (getcwd(pwd, size) == NULL)
 	{
-		perror(file);
 		return (-1);
 	}
 	if (_setenv("PWD", pwd, 1) == -1)
@@ -141,13 +144,13 @@ int cd_previous_path(char *file)
 {
 	char pwd[500], oldpwd[500], *tmp1, *tmp2;
 
+	(void)file;
 	tmp1 = getenv_value("PWD");
 	tmp2 = getenv_value("OLDPWD");
 	strcpy(pwd, tmp1);
 	strcpy(oldpwd, tmp2);
 	if (chdir(oldpwd) == -1)
 	{
-		perror(file);
 		return (-2);
 	}
 	/* update the PWD and OLDPWD environment variables */
