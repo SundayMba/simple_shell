@@ -78,13 +78,13 @@ char *build_full_path(char *cmd, char **env)
 	tmp = paths;
 	while (*paths)
 	{
-		size = strlen(*paths) + strlen(cmd);
+		size = _strlen(*paths) + _strlen(cmd);
 		path = malloc(sizeof(char) * (size + 2));
 		if (path == NULL)
 			break;
-		strcpy(path, *paths);
-		strcat(path, "/");
-		strcat(path, cmd);
+		_strcpy(path, *paths);
+		_strcat(path, "/");
+		_strcat(path, cmd);
 		res = stat(path, &status);
 		if (res == 0)
 			break;
@@ -121,7 +121,7 @@ int builtin_command(char **tokens, char *filename, char **env, int *n)
 	builtin_len = 6;
 	for (i = 0; i < builtin_len && builtin[i].cmd != NULL;  i++)
 	{
-		if (strcmp(builtin[i].cmd, tokens[0]) == 0)
+		if (_strcmp(builtin[i].cmd, tokens[0]) == 0)
 		{
 			m = builtin[i].builtin_func(tokens, filename, env, n);
 			return (m);
