@@ -14,15 +14,15 @@ int _setenv(char *name, char *value, int overwrite)
 	int size;
 
 	/* len = len(name) +len(value) + len('=') + len('\0') */
-	size = strlen(name) + strlen(value) + 2;
+	size = _strlen(name) + _strlen(value) + 2;
 	new_env = malloc(sizeof(char) * size);
 	if (new_env == NULL)
 		return (-1);
 	/* construct the new environment */
-	strcpy(new_env, name);
-	strcat(new_env, "=");
-	strcat(new_env, value);
-	strcat(new_env, "\0");
+	_strcpy(new_env, name);
+	_strcat(new_env, "=");
+	_strcat(new_env, value);
+	_strcat(new_env, "\0");
 	if (_getenv(name) == NULL)
 	{
 		if (_putenv(new_env) == -1)
@@ -87,7 +87,7 @@ int _putenv(char *new_env)
 	}
 	for (i = 0; environ[i]; i++)
 	{
-		tmp = strdup(environ[i]);
+		tmp = _strdup(environ[i]);
 		if (tmp == NULL)
 		{
 			for (j = i - 1; j >= 0; j--)
@@ -129,7 +129,7 @@ char **dynamic_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		tmp = strdup(env[i]);
+		tmp = _strdup(env[i]);
 		if (tmp == NULL)
 		{
 			for (j = i - 1; j >= 0; j--)
@@ -161,7 +161,7 @@ int _unsetenv(char *name)
 		return (-1);
 	for (i = 0; environ[i]; i++)
 	{
-		if (_strnstr(environ[i], name, strlen(name)))
+		if (_strnstr(environ[i], name, _strlen(name)))
 		{
 			free(environ[i]);
 			environ[i] = NULL;
