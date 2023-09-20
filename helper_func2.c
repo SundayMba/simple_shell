@@ -63,18 +63,18 @@ void handle_error(char *filename, char *arg, int n)
 	char error[100];
 	char *count_str;
 
-	strcpy(error, filename);
-	strcat(error, ": ");
+	_strcpy(error, filename);
+	_strcat(error, ": ");
 	count_str = int_to_str(n);
 	if (count_str == NULL)
 		count_str = "1";
-	strcat(error, count_str);
+	_strcat(error, count_str);
 	/* check if operating in non interactive mode */
-	strcat(error, ": ");
-	strcat(error, arg);
-	strcat(error, ": ");
-	strcat(error, "not found\n");
-	write(STDERR_FILENO, error, strlen(error));
+	_strcat(error, ": ");
+	_strcat(error, arg);
+	_strcat(error, ": ");
+	_strcat(error, "not found\n");
+	write(STDERR_FILENO, error, _strlen(error));
 	free(count_str);
 }
 
