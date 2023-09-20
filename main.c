@@ -13,7 +13,7 @@ int main(__attribute__((unused)) int argc, char **argv, char **envp)
 	char *buffer, *sep;
 	ssize_t rbyte;
 	size_t buff_size;
-	char **tokens;
+	char **tokens, *buf;
 	int ret_code = 0;
 
 	sep = " \n\t";
@@ -23,14 +23,16 @@ int main(__attribute__((unused)) int argc, char **argv, char **envp)
 	{
 		buffer = NULL;
 		tokens = NULL;
+		buf = NULL;
 		/* check if the keyboard is connected to the tty (inter. mod)*/
 		if (isatty(STDIN_FILENO))
 			prompt_user();
 		rbyte = _getline(&buffer, &buff_size, STDIN_FILENO);
 		if (handle_rbyte(buffer, rbyte, &ret_code, environ) == 1)
 			continue;
-		tokens = tokenize_buffer(buffer, sep);
-		free(buffer);
+		buf = preprocess_strtok(buffer);
+		tokens = tokenize_buffer(buf, sep);
+		free(buf);
 		if (tokens == NULL)
 			continue;
 		ret_code = process_cmd(tokens, argv[0], environ, &ret_code);

@@ -15,7 +15,7 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 	int count = 0, i, prev;
 
 	sp_char = special_char(tokens);
-	if (sp_char != NULL)
+	if (sp_char)
 	{
 		while (tk[count])
 		{
@@ -48,7 +48,8 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 			count++;
 		}
 	}
-	*status = handle_path(tokens, file, env, status);
+	else
+		*status = handle_path(tokens, file, env, status);
 	return (*status);
 }
 

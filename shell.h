@@ -70,5 +70,6 @@ char *special_char(char **tokens);
 int cd_path(char *file, char *path);
 int cd_previous_path(char *file);
 int flush(char **tokens, int *status);
+char *preprocess_strtok(char *b);
 
 #endif

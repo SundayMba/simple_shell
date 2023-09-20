@@ -81,3 +81,51 @@ int buf_overflow(int *d, int *b, char *bf, int *f, char *l, int *lp, size_t *s)
 	return (-100);
 }
 
+
+/**
+ * preprocess_strtok - preprocess strtok before tokenizing it.
+ * @b: buffer to preprocess
+ * Return: pointer to the preprocess buffer
+ */
+
+char *preprocess_strtok(char *b)
+{
+	char *new_buf;
+	int len, i, index;
+
+	len = strlen(b);
+	index = 0;
+	new_buf = malloc(2 * len + 1);
+	if (new_buf == NULL)
+		return (NULL);
+	for (i = 0; i < len; i++)
+	{
+		if (b[i] == '&' && i < len - 1 && b[i + 1] == '&')
+		{
+			new_buf[index++] = ' ';
+			new_buf[index++] = '&';
+			new_buf[index++] = '&';
+			new_buf[index++] = ' ';
+			i++;
+		}
+		else if (b[i] == '|' && i < len - 1 && b[i + 1] == '|')
+		{
+			new_buf[index++] = ' ';
+			new_buf[index++] = '|';
+			new_buf[index++] = '|';
+			new_buf[index++] = ' ';
+			i++;
+		}
+		else if (b[i] == ';' || b[i] == '|' || b[i] == '&')
+		{
+			new_buf[index++] = ' ';
+			new_buf[index++] = b[i];
+			new_buf[index++] = ' ';
+		}
+		else
+			new_buf[index++] = b[i];
+	}
+	new_buf[index] = '\0';
+	free(b);
+	return (new_buf);
+}
