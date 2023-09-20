@@ -13,7 +13,7 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 {
 	size_t size;
 	char pwd[500];
-	static int er = 1;
+	static int err = 1;
 
 	(void)env;
 	size = 500;
@@ -23,7 +23,7 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 		if (*n == -2)
 		{
 			*n = -1;
-			handle_exit_error(file, tk, er, "can't cd to:");
+			handle_cd_error(file, tk, err, "can't cd to");
 		}
 	}
 	else if (strcmp(tk[1], "-") == 0)
@@ -33,7 +33,7 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 		{
 			if (getcwd(pwd, size) == NULL)
 			{
-				handle_exit_error(file, tk, er, "can't cd to:");
+				handle_cd_error(file, tk, err, "can't cd to");
 				*n = -1;
 				return (*n);
 			}
@@ -44,7 +44,7 @@ int handle_cd(char **tk, char *file, char **env, int *n)
 	else
 		*n = cd_path(file, tk[1]);
 	if (*n == -2)
-		handle_exit_error(file, tk, er, "can't cd to:");
+		handle_cd_error(file, tk, err, "can't cd to");
 	if (*n == -1)
 		print_env_error(file, "Invalid path");
 	free_memory(tk);

@@ -49,6 +49,7 @@ int handle_unsetenv(char **tk, char *file, char **env, int *);
 int handle_env(char **tk, char *file, char **env, int *);
 int _atoi(char *str);
 void handle_exit_error(char *filename, char **tokens, int n, char *msg);
+void handle_cd_error(char *filename, char **tokens, int n, char *msg);
 char *_strtok(char *str, char *sep);
 int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
