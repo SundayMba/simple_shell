@@ -116,7 +116,7 @@ char *preprocess_strtok(char *b)
 			new_buf[index++] = ' ';
 			i++;
 		}
-		else if (b[i] == ';' || b[i] == '|' || b[i] == '&')
+		else if (b[i] == ';' || b[i] == '#')
 		{
 			new_buf[index++] = ' ';
 			new_buf[index++] = b[i];

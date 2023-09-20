@@ -14,7 +14,7 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 	char **tk = tokens, *sp_char, *sp_chars = ";||&&", **new_tk;
 	int count = 0, i, prev;
 
-	sp_char = special_char(tokens);
+	sp_char = special_char(tokens, sp_chars);
 	if (sp_char)
 	{
 		while (tk[count])
@@ -37,11 +37,9 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 					if (*status == 0)
 						return (flush(tokens, status));
 				}
-				else if (_strcmp(sp_char, "&&") == 0)
-				{
+				else if (strcmp(sp_char, "&&") == 0)
 					if (*status != 0)
 						return (flush(tokens, status));
-				}
 			}
 			else
 				return (flush(tokens, status));
@@ -57,12 +55,13 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 /**
  * special_char - check if special char like &&, ;, || exist.
  * @tokens: array of tokens that contain the command
+ * @sp_char: special characeters
  * Return: pointer to special char if exist or NULL
  */
 
-char *special_char(char **tokens)
+char *special_char(char **tokens, char *sp_chars)
 {
-	char *sp_chars = ";&&||", *sp_char_ptr;
+	char *sp_char_ptr;
 	int i;
 
 	for (i = 0; tokens[i]; i++)
@@ -85,4 +84,72 @@ int flush(char **tokens, int *status)
 {
 	free_memory(tokens);
 	return (*status);
+}
+
+
+/**
+ * handle_comment - strip off comments.
+ * @tokens: array of tokens to process
+ * @file: filename
+ * @env: enivironment
+ * @status: status code of process execution
+ * Return: status code
+ */
+
+int handle_comment(char **tokens, char *file, char **env, int *status)
+{
+	char *new_tk;
+	int count;
+
+	count = 0;
+	if (special_char(tokens, "#"))
+	{
+		for (i = 0; tokens[i] && !strstr("#", tokens[i]); i++)
+			count++;
+		if (count == 0)
+			return (0);
+		new_tk = malloc(sizeof(char *) * (count + 1));
+		if (new_tk == NULL)
+			return (-1);
+		for (i = 0; i < count; i++)
+			new_tk[i] = strdup(tokens[i]);
+		new_tk[i] = NULL;
+		free_memory(tokens);
+		return (process_var(new_tk, file, env, status));
+	}
+	else
+		return (process_var(new_tk, file, env, status));
+}
+
+
+
+/**
+ * process_var - replace variable precede with $.
+ * @tokens: array of tokens to process
+ * @file: filename
+ * @env: enivironment
+ * @status: status code of process execution
+ * Return: status code
+ */
+
+int process_var(char **tokens, char *file, char **env, int *status)
+{
+	int res;
+
+	/* check for $ sign for variable replacement */
+	for (i = 0; tokens[i]; i++)
+	{
+		dollar = strchr(tokens[i], '$');
+		if (dollar)
+		{
+			dollar++;
+			if (dollar && *dollar == '?')
+				token[i] = get_status(tokens[i]);
+			else if (dollar && *dollar == '$')
+				tokens[i] = get_pid(tokens[i]);
+			else
+				tokens[i] = check_env_var(tokens[i]);
+		}
+	}
+	return (process_cmd(tokens, file, env, status));
 }
