@@ -16,7 +16,7 @@ int handle_path(char **tokens, char *filename, char **env, int *code)
 	static int n = 1;
 
 	/* check for builtin commands */
-	if (builtin_command(tokens, filename, env, code) == 0)
+	if (builtin_command(tokens, filename, env, code) != NOT_BUILTIN)
 	{
 		/* free_memory(tokens); */
 		return (*code);
@@ -103,7 +103,7 @@ char *build_full_path(char *cmd, char **env)
  * @filename: executable filename
  * @env: environemnt variable
  * @n: return code
- * Return: 0 - success (1) - not a builtin command
+ * Return: 0 - success (-2) - not a builtin command
  */
 
 int builtin_command(char **tokens, char *filename, char **env, int *n)
@@ -112,10 +112,13 @@ int builtin_command(char **tokens, char *filename, char **env, int *n)
 	builtin_cmd builtin[] = {
 		{"exit", handle_exit},
 		{"env", handle_env},
+		{"setenv", handle_setenv},
+		{"unsetenv", handle_unsetenv},
+		{"cd", handle_cd},
 		{NULL, NULL}
 	};
 
-	builtin_len = 3;
+	builtin_len = 6;
 	for (i = 0; i < builtin_len && builtin[i].cmd != NULL;  i++)
 	{
 		if (strcmp(builtin[i].cmd, tokens[0]) == 0)
@@ -124,5 +127,5 @@ int builtin_command(char **tokens, char *filename, char **env, int *n)
 			return (m);
 		}
 	}
-	return (1);
+	return (NOT_BUILTIN);
 }

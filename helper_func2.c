@@ -31,6 +31,7 @@ int handle_execution(char **tokens, char *filename, char **env, int *code)
 			else
 				handle_error(filename, tokens[0], n);
 			free_memory(tokens);
+			free_memory(env);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -43,6 +44,8 @@ int handle_execution(char **tokens, char *filename, char **env, int *code)
 		/* error occurred during child process */
 		if (status > 0)
 			*code = FILE_NOT_EXIST;
+		else
+			*code = status;
 	}
 	return (*code);
 }
@@ -110,4 +113,19 @@ char *int_to_str(int count)
 	rem = count % 10;
 	*ptr = rem + 48;
 	return (ptr);
+}
+
+/**
+ * print_env_error - print environment error
+ * @file: filename of the process
+ * @msg: message to display
+ * Return: void
+ */
+
+void print_env_error(char *file, char *msg)
+{
+	write(STDERR_FILENO, file, _strlen(file));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, msg, _strlen(msg));
+	write(STDERR_FILENO, "\n", 1);
 }

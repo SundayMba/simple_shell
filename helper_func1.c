@@ -7,10 +7,13 @@
 
 void prompt_user(void)
 {
-	char *message;
+	size_t size;
+	char pwd[500];
 
-	message = "($) ";
-	write(STDOUT_FILENO, message, strlen(message));
+	size = 500;
+	getcwd(pwd, size);
+	strcat(pwd, "$ ");
+	write(STDOUT_FILENO, pwd, strlen(pwd));
 }
 
 /**
@@ -109,10 +112,11 @@ void free_memory(char **tokens)
  * @buffer: user input from stdin
  * @rbyte: return byte from getline
  * @ret_code: return code for the process
+ * @env: environment variable
  * Return: integer
  */
 
-int handle_rbyte(char *buffer, int rbyte, int *ret_code)
+int handle_rbyte(char *buffer, int rbyte, int *ret_code, char **env)
 {
 	/* when user press enter key */
 	if (rbyte == 1)
@@ -125,6 +129,7 @@ int handle_rbyte(char *buffer, int rbyte, int *ret_code)
 	if (rbyte == -1)
 	{
 		free(buffer);
+		free_memory(env);
 		exit(*ret_code);
 	}
 	return (rbyte);

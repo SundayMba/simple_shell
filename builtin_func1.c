@@ -13,13 +13,12 @@ int handle_exit(char **tk, char *file, char **env, int *n)
 {
 	int status_code;
 	static int error_num = 1;
-	(void)file;
 	(void)env;
-	(void)n;
 
 	if (tk[1] == NULL)
 	{
 		free_memory(tk);
+		free_memory(environ);
 		exit(*n);
 	}
 	status_code = _atoi(tk[1]);
@@ -32,6 +31,7 @@ int handle_exit(char **tk, char *file, char **env, int *n)
 	else
 		*n = status_code;
 	free_memory(tk);
+	free_memory(environ);
 	exit(*n);
 }
 
@@ -79,11 +79,12 @@ void handle_exit_error(char *filename, char **tk, int n, char *msg)
 int handle_env(char **tk, char *file, char **env, int *n)
 {
 	int len, i;
+	(void)env;
 
-	for (i = 0; env[i]; i++)
+	for (i = 0; environ[i]; i++)
 	{
-		len = strlen(env[i]);
-		if (write(STDOUT_FILENO, env[i], len) == -1)
+		len = strlen(environ[i]);
+		if (write(STDOUT_FILENO, environ[i], len) == -1)
 		{
 			*n = -1;
 			perror(file);
@@ -95,4 +96,67 @@ int handle_env(char **tk, char *file, char **env, int *n)
 	*n = 0;
 	free_memory(tk);
 	return (0);
+}
+
+/**
+ * handle_setenv - set an environment variable
+ * @tk: tokens
+ * @file: filename
+ * @env: environment
+ * @n: status code
+ * Return: 0 - success
+ */
+
+int handle_setenv(char **tk, char *file, char **env, int *n)
+{
+	(void)env;
+
+	if (tk[1] == NULL || (tk[1] != NULL && tk[2] == NULL))
+	{
+		print_env_error(file, "Invalid argument");
+		free_memory(tk);
+		return (*n);
+	}
+	if (_setenv(tk[1], tk[2], 1) == -1)
+	{
+		print_env_error(file, "Invalid argument");
+		free_memory(tk);
+		*n = -1;
+		return (*n);
+	}
+	free_memory(tk);
+	*n = 0;
+	return (*n);
+}
+
+/**
+ * handle_unsetenv - unset an environment variable
+ * @tk: tokens
+ * @file: filename
+ * @env: environment
+ * @n: status code
+ * Return: 0 - success
+ */
+
+int handle_unsetenv(char **tk, char *file, char **env, int *n)
+{
+	(void)env;
+
+	if (tk[1] == NULL)
+	{
+		print_env_error(file, "Invalid argument");
+		free_memory(tk);
+		*n = -1;
+		return (*n);
+	}
+	if (_unsetenv(tk[1]) == -1)
+	{
+		handle_error(file, tk[0], *n);
+		free_memory(tk);
+		*n = -1;
+		return (*n);
+	}
+	free_memory(tk);
+	*n = 0;
+	return (*n);
 }
