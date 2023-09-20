@@ -44,7 +44,8 @@ int handle_execution(char **tokens, char *filename, char **env, int *code)
 		/* error occurred during child process */
 		if (status > 0)
 			*code = FILE_NOT_EXIST;
-		*code = status;
+		else
+			*code = status;
 	}
 	return (*code);
 }
