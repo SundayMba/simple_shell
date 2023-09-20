@@ -20,24 +20,24 @@ int process_cmd(char **tokens, char *file, char **env, int *status)
 		while (tk[count])
 		{
 			prev = count;
-			while (tk[count] && !strstr(sp_chars, tk[count]))
+			while (tk[count] && !_strstr(sp_chars, tk[count]))
 				count++;
 			new_tk = malloc(sizeof(char *) * ((count - prev) + 1));
 			if (new_tk == NULL)
 				return (-1);
 			for (i = 0; i < (count - prev); i++)
-				new_tk[i] = strdup(tk[prev + i]);
+				new_tk[i] = _strdup(tk[prev + i]);
 			new_tk[i] = NULL;
 			sp_char = tk[count];
 			*status = handle_path(new_tk, file, env, status);
 			if (sp_char != NULL)
 			{
-				if (strcmp(sp_char, "||") == 0)
+				if (_strcmp(sp_char, "||") == 0)
 				{
 					if (*status == 0)
 						return (flush(tokens, status));
 				}
-				else if (strcmp(sp_char, "&&") == 0)
+				else if (_strcmp(sp_char, "&&") == 0)
 				{
 					if (*status != 0)
 						return (flush(tokens, status));
@@ -67,7 +67,7 @@ char *special_char(char **tokens)
 
 	for (i = 0; tokens[i]; i++)
 	{
-		sp_char_ptr = strstr(sp_chars, tokens[i]);
+		sp_char_ptr = _strstr(sp_chars, tokens[i]);
 		if (sp_char_ptr != NULL)
 			return (sp_char_ptr);
 	}
