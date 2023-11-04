@@ -1,6 +1,4 @@
-TEST_SUITE
 alx_test_suite
-runchecker.bash
 allowed_functions
 hsh
 .getline.c
